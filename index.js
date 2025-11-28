@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express')
 const app = express()
 const cors = require("cors");
@@ -29,7 +30,7 @@ const client = new MongoClient(uri, {
 });
 async function run() {
   try {
-    // await client.connect();
+    await client.connect();
 
     const db = client.db("food-data")
     const foodCollection = db.collection("menu")
@@ -49,7 +50,7 @@ async function run() {
    
     })
 
-    app.get("/item/:id",async(res,req)=>{
+    app.get("/item/:id",async(req,res)=>{
           const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await foodCollection.findOne(query);
@@ -74,7 +75,7 @@ async function run() {
 
     
   
-    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
      
     // await client.close();
